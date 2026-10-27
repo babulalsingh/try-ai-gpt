@@ -62,3 +62,43 @@ body.dark .setup{background:#3a2c0a;border-color:#6b4f12;color:#ffd98a}body.dark
 body.dark th{color:#9aa0cf}body.dark .usage,body.dark .plan.cur{background:#1d2147}
 
 .ann{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:12px 16px;border-radius:12px;margin-bottom:12px;background:#e6efff;color:#17408f}.ann.success{background:#e3f8ee;color:#0a6b40}.ann.warning{background:#fff3df;color:#8a4b00}.ann b{margin-right:6px}
+
+
+.phone {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
+}
+
+.phone img {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  transform-origin: center;
+  animation: heroPhoneFloat 4s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes heroPhoneFloat {
+  0%, 100% {
+    transform: perspective(1000px)
+               rotateY(-8deg)
+               rotateZ(-2deg)
+               translateY(0);
+  }
+
+  50% {
+    transform: perspective(1000px)
+               rotateY(8deg)
+               rotateZ(2deg)
+               translateY(-12px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phone img {
+    animation: none;
+  }
+}
