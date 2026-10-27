@@ -1,0 +1,28 @@
+.split{display:grid;grid-template-columns:1.25fr 1fr;min-height:100vh}
+.hero{background:linear-gradient(160deg,#fff 0%,#f3edff 60%,#fbe9ff 100%);padding:28px 56px;display:flex;flex-direction:column}
+.nav{display:flex;align-items:center;gap:32px}.nav a.l{color:var(--ink);font-weight:500}
+.hero h1{font-size:clamp(38px,5vw,60px);font-weight:800;letter-spacing:-1.5px;margin:48px 0 18px;max-width:560px}
+.hero h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.sub{color:var(--muted);font-size:17px;max-width:480px}
+.feats{display:flex;gap:26px;margin:32px 0;flex-wrap:wrap}.feats div{text-align:center;font-size:13px;width:84px}
+.feats i{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;margin:0 auto 8px;font-style:normal;font-size:22px;background:#fff;box-shadow:var(--shadow)}
+.demo{margin-top:auto;display:grid;gap:12px;max-width:440px}
+.bub{background:#fff;border-radius:16px;padding:14px 16px;box-shadow:var(--shadow)}
+.bub small{color:var(--muted)}.bub.dm{margin-left:48px;border:1px solid #e3d6ff}
+.panel{display:grid;place-items:center;padding:32px;background:#fff}
+.box{width:100%;max-width:440px}.box h2{font-size:28px;text-align:center;margin:18px 0 6px}
+.box .lead{text-align:center;color:var(--muted);margin-bottom:22px}
+.or{display:flex;align-items:center;gap:12px;color:var(--muted);margin:16px 0}.or:before,.or:after{content:"";flex:1;height:1px;background:var(--line)}
+.terms{display:flex;gap:8px;font-size:13px;color:var(--muted);margin:4px 0 14px}
+.foot{text-align:center;color:var(--muted);margin-top:18px}
+@media(max-width:900px){.split{grid-template-columns:1fr}.hero{padding:20px}.feats{gap:14px}.hero h1{margin:24px 0 10px}}
+.hero{position:relative}
+.phone{display:flex;justify-content:center;margin-top:28px}
+.phone img{width:min(250px,58%);height:auto;filter:drop-shadow(0 24px 40px rgba(120,60,240,.25))}
+@media(min-width:1200px){.phone{position:absolute;right:36px;top:120px;margin:0}.phone img{width:270px}}
+.pfoot{background:#fff;border-top:1px solid var(--line);padding:28px 56px;display:flex;flex-wrap:wrap;gap:16px 36px;align-items:center}
+.pfoot nav{display:flex;flex-wrap:wrap;gap:8px 22px;flex:1}.pfoot nav a{color:#3a3f63;font-weight:500;padding:6px 0}
+.pfoot small{color:var(--muted);width:100%}
+@media(max-width:900px){.pfoot{padding:24px 20px}.hero h1{font-size:clamp(32px,9vw,44px)}.phone{display:flex}}
+@media(max-width:520px){.panel{padding:20px 14px}.box h2{font-size:24px}.pfoot nav{display:grid;grid-template-columns:1fr 1fr}}
+
