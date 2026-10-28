@@ -1,0 +1,13 @@
+project_id = "dm-me-insta"
+[functions.instagram-oauth]
+verify_jwt = false      # Meta redirects here without a Supabase JWT; the start action checks the JWT itself
+[functions.instagram-webhook]
+verify_jwt = false      # Meta calls this; every request is verified with the X-Hub-Signature-256 HMAC
+[functions.instagram-api]
+verify_jwt = false      # the function validates the user's JWT itself
+[functions.admin-api]
+verify_jwt = false      # the function validates the session and the admin role itself on every request
+[functions.easebuzz-checkout]
+verify_jwt = false      # validates the user's session itself
+[functions.easebuzz-callback]
+verify_jwt = false      # called by Easebuzz; verified with the SHA-512 signature
