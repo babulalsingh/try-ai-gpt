@@ -34,10 +34,11 @@
     if (!session) { showLogin("Your session has ended. Please sign in again."); throw new Error("Session ended."); }
     let r;
     try { r = await fetch(`${cfg.SUPABASE_URL}/functions/v1/admin-api`, { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + session.access_token, apikey: cfg.SUPABASE_ANON_KEY }, body: JSON.stringify({ action, ...p }) }); }
-    catch { throw new Error('Cannot reach the "admin-api" function. Deploy it first (see README).'); }
+    catch { throw new Error('Cannot reach the admin service. Check that the "admin-api" function is deployed and that its CORS allows this website.'); }
     const j = await r.json().catch(() => ({}));
-    if (r.status === 401 || r.status === 403) { await sb.auth.signOut(); showLogin("This account is not authorized for the admin panel."); throw new Error(j.error || "Not authorized."); }
-    if (!r.ok) throw new Error(j.error || "Request failed.");
+    if (r.status === 401 || r.status === 403) { await sb.auth.signOut(); showLogin("This account is not authorized for the admin panel."); const e = new Error(j.error || "Not authorized."); e.handled = true; throw e; }
+    if (r.status === 404 && (j.code === "NOT_FOUND" || !j.error)) throw new Error('The "admin-api" function is not deployed on Supabase yet.');
+    if (!r.ok) throw new Error(j.error || "Request failed (" + r.status + ").");
     return j;
   }
   const fail = e => toast(e && e.message ? e.message : String(e), "bad");
@@ -75,7 +76,8 @@
   async function boot() {
     const { data: { session } } = await sb.auth.getSession();
     if (!session) return showLogin();
-    try { const r = await api("me"); me = r; } catch (e) { return; }   // api() already shows the login screen on 401/403
+    try { me = await api("me"); }
+    catch (e) { if (!e.handled) { await sb.auth.signOut(); showLogin(e.message || "Could not reach the admin service."); } return; }   // 401/403 already showed the login screen
     renderShell();
   }
 
