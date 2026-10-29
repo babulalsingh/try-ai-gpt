@@ -20,26 +20,26 @@
     const s = await Auth.requireAuth();
     const email = s?.user?.email || "";
     const name = s?.user?.user_metadata?.full_name || email.split("@")[0] || "Account";
-    const bn = (id, label, ic, cls = "") => `<a href="${id}.html" class="${cls} ${id === page ? "on" : ""}">${cls === "mid" ? `<span class="cir">${ic}</span>` : ic}<span>${label}</span></a>`;
+    const bn = (id, label, ic, cls = "") => `<a href="${id}" class="${cls} ${id === page ? "on" : ""}">${cls === "mid" ? `<span class="cir">${ic}</span>` : ic}<span>${label}</span></a>`;
     document.getElementById("app-root").innerHTML = `
     <div class="app">
       <aside class="side" id="side" aria-label="Main navigation">
-        <a class="logo" href="dashboard.html">${LOGO}AGS DM <b>Insta</b></a>
+        <a class="logo" href="dashboard">${LOGO}AGS DM <b>Insta</b></a>
         <div class="tag">Turn Instagram Comments into Conversations.</div>
-        <a class="nav-i" href="hub.html" style="background:#f3f0ff"><span class="ic">◀</span>Try AI GPT · All tools</a>
-        ${NAV.map(([id,l,ic]) => `<a class="nav-i ${id===page?"on":""}" href="${id}.html" ${id===page?'aria-current="page"':""}><span class="ic">${ic}</span>${l}</a>`).join("")}
+        <a class="nav-i" href="hub" style="background:#f3f0ff"><span class="ic">◀</span>Try AI GPT · All tools</a>
+        ${NAV.map(([id,l,ic]) => `<a class="nav-i ${id===page?"on":""}" href="${id}" ${id===page?'aria-current="page"':""}><span class="ic">${ic}</span>${l}</a>`).join("")}
         <div class="usage"><strong id="planName">Plan</strong>
           <div id="usageTxt" style="color:var(--muted);font-size:12.5px">Usage not available yet</div>
           <div class="bar"><i id="usageBar"></i></div>
-          <a class="btn btn-primary btn-sm upbtn" style="width:100%" href="billing-plan.html">Upgrade Plan</a></div>
+          <a class="btn btn-primary btn-sm upbtn" style="width:100%" href="billing-plan">Upgrade Plan</a></div>
       </aside>
       <div class="main">
         <header class="top">
           <button class="btn btn-sm menu-btn" id="menuBtn" aria-label="Open menu" aria-controls="side">☰</button>
-          <div class="mbrand"><a class="logo" href="hub.html" title="Back to Try AI GPT">${LOGO}AGS DM <b>Insta</b></a><small>Turn Instagram Comments into Conversations</small></div>
+          <div class="mbrand"><a class="logo" href="hub" title="Back to Try AI GPT">${LOGO}AGS DM <b>Insta</b></a><small>Turn Instagram Comments into Conversations</small></div>
           <input class="input" type="search" placeholder="Search posts, leads, templates…" aria-label="Search">
           <span class="sp"></span>
-          <a class="btn btn-primary btn-sm up-btn" href="billing-plan.html">Upgrade Plan</a>
+          <a class="btn btn-primary btn-sm up-btn" href="billing-plan">Upgrade Plan</a>
           <button class="btn btn-sm" aria-label="Notifications" id="notifBtn">🔔</button>
           <button class="avatar" id="acctBtn" title="${esc(email)}" aria-label="Account">${esc(name[0]||"U").toUpperCase()}</button>
         </header>
@@ -54,8 +54,8 @@
     <div class="sheet" id="sheet" role="dialog" aria-label="More" hidden>
       <div class="sh-head"><h2>More</h2><button id="shX" aria-label="Close">✕</button></div>
       <div class="sh-item"><span class="avatar">${esc(name[0]||"U").toUpperCase()}</span><div><b>${esc(name)}</b><small>${esc(email)}</small></div></div>
-      ${MORE.map(([id,t,sub,ic,bg]) => `<a class="sh-item" href="${id}.html"><span class="tile" style="background:${bg}">${ic}</span><div><b>${t}</b><small>${sub}</small></div><em>›</em></a>`).join("")}
-      <div class="usage"><strong id="planName2">Plan</strong><div id="usageTxt2" style="color:var(--muted);font-size:12.5px">Usage not available yet</div><div class="bar"><i id="usageBar2"></i></div><a class="btn btn-primary upbtn" style="width:100%" href="billing-plan.html">Upgrade Plan</a></div>
+      ${MORE.map(([id,t,sub,ic,bg]) => `<a class="sh-item" href="${id}"><span class="tile" style="background:${bg}">${ic}</span><div><b>${t}</b><small>${sub}</small></div><em>›</em></a>`).join("")}
+      <div class="usage"><strong id="planName2">Plan</strong><div id="usageTxt2" style="color:var(--muted);font-size:12.5px">Usage not available yet</div><div class="bar"><i id="usageBar2"></i></div><a class="btn btn-primary upbtn" style="width:100%" href="billing-plan">Upgrade Plan</a></div>
     </div>`;
     const side = document.getElementById("side"), sheet = document.getElementById("sheet");
     const toggle = () => { const o = side.classList.toggle("open"); let sc = document.querySelector(".scrim"); if (o && !sc) { sc = document.createElement("div"); sc.className = "scrim"; sc.onclick = toggle; document.body.appendChild(sc); } else if (!o && sc) sc.remove(); };
@@ -65,7 +65,7 @@
     document.getElementById("shX").onclick = () => sh(false);
     document.addEventListener("keydown", e => { if (e.key === "Escape") sh(false); });
     document.getElementById("notifBtn").onclick = () => Auth.toast("No notifications yet.", "info");
-    document.getElementById("acctBtn").onclick = () => { if (innerWidth <= 800) location.href = "settings.html"; else if (confirm("Sign out of " + email + "?")) Auth.signOut(); };
+    document.getElementById("acctBtn").onclick = () => { if (innerWidth <= 800) location.href = "settings"; else if (confirm("Sign out of " + email + "?")) Auth.signOut(); };
     return { session: s, name, email };
   };
   window.esc = esc;

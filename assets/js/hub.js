@@ -4,7 +4,7 @@
   const page = document.body.dataset.page || "hub";
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const TOOLS = [
-    { name: "AGS DM Insta", desc: "Instagram Auto DM SaaS. Turn comments into conversations.", icon: "✈️", g: "linear-gradient(135deg,#ff3d8b,#7a3cf0)", href: "dashboard.html" },
+    { name: "AGS DM Insta", desc: "Instagram Auto DM SaaS. Turn comments into conversations.", icon: "✈️", g: "linear-gradient(135deg,#ff3d8b,#7a3cf0)", href: "dashboard" },
     { name: "AGS Folio", desc: "Create professional portfolio websites.", icon: "💼", g: "linear-gradient(135deg,#2e6cf6,#4aa3ff)" },
     { name: "AGS FunnelFlow", desc: "Create high-converting landing pages & sales funnels.", icon: "🔻", g: "linear-gradient(135deg,#12b76a,#5be08f)" },
     { name: "AGS WhatsFlow", desc: "Bulk message sender, WhatsApp marketing & more.", icon: "💬", g: "linear-gradient(135deg,#1db954,#12b76a)" },
@@ -14,7 +14,7 @@
     { name: "AGS StrangerTalk", desc: "Video, audio & text chat platform.", icon: "🎥", g: "linear-gradient(135deg,#2e6cf6,#3b9bff)" }
   ];
   // [page id, link, label, icon, short label for the mobile bar]
-  const NAV = [["hub", "hub.html", "Dashboard", "⌂", "Dashboard"], ["all-tools", "all-tools.html", "All Tools", "▦", "Tools"], ["billing-plan", "billing-plan.html", "Billing & Plan", "▭", "Billing"], ["settings", "settings.html", "Settings", "⚙", "Settings"], ["help-support", "help-support.html", "Help & Support", "?", "Help"]];
+  const NAV = [["hub", "hub", "Dashboard", "⌂", "Dashboard"], ["all-tools", "all-tools", "All Tools", "▦", "Tools"], ["billing-plan", "billing-plan", "Billing & Plan", "▭", "Billing"], ["settings", "settings", "Settings", "⚙", "Settings"], ["help-support", "help-support", "Help & Support", "?", "Help"]];
   const card = t => `<article class="tool ${t.href ? "" : "soon"}"><div class="ti" style="background:${t.g}">${t.icon}</div><span class="tb ${t.href ? "live" : ""}">${t.href ? "Live" : "Coming soon"}</span><div class="tx"><h3>${esc(t.name)}</h3><p>${esc(t.desc)}</p></div>${t.href ? `<a class="obtn" href="${t.href}">Open Tool →</a>` : `<button class="obtn dis" disabled>Coming soon</button>`}</article>`;
 
   window.renderHubShell = async function (pg, title, subtitle, content, withSearch) {
@@ -31,14 +31,14 @@
     const root = document.getElementById("app-root") || document.getElementById("app");
     root.innerHTML = `
     <div class="hub">
-      <aside class="hs"><a class="hlogo" href="hub.html"><img src="assets/img/ags-logo.png" alt="" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mk',textContent:'T'}))">Try AI GPT</a><small class="t">All-in-One Digital Solutions</small>
+      <aside class="hs"><a class="hlogo" href="hub"><img src="assets/img/ags-logo.png" alt="" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'mk',textContent:'T'}))">Try AI GPT</a><small class="t">All-in-One Digital Solutions</small>
         ${NAV.map(([id, h, l, ic]) => `<a class="hn ${id === pg ? "on" : ""}" href="${h}" ${id === pg ? 'aria-current="page"' : ""}><span>${ic}</span>${l}</a>`).join("")}
-        <div class="up"><div style="font-size:28px">👑</div><b>Upgrade Plan</b><p>Get higher limits and more features on your tools.</p><a href="billing-plan.html">Upgrade Now →</a></div>
+        <div class="up"><div style="font-size:28px">👑</div><b>Upgrade Plan</b><p>Get higher limits and more features on your tools.</p><a href="billing-plan">Upgrade Now →</a></div>
       </aside>
       <main class="hm">
-        <div class="hbar"><a class="hlogo hb-logo" href="hub.html"><span class="mk">T</span>Try AI GPT</a>
+        <div class="hbar"><a class="hlogo hb-logo" href="hub"><span class="mk">T</span>Try AI GPT</a>
           ${withSearch ? `<div class="sb"><input id="q" type="search" placeholder="Search tools…" aria-label="Search tools"><kbd>Ctrl K</kbd></div>` : ""}<span class="sp"></span>
-          <a class="hbtn" href="billing-plan.html">👑 Upgrade Plan</a><button class="hic" id="th" aria-label="Toggle dark mode">🌙</button>
+          <a class="hbtn" href="billing-plan">👑 Upgrade Plan</a><button class="hic" id="th" aria-label="Toggle dark mode">🌙</button>
           <button class="huser" id="um" aria-label="Account"><span class="av">${esc(name[0].toUpperCase())}</span><div><b>${esc(name)}</b><small>${esc(plan)}</small></div></button></div>
         ${title ? `<section class="hh"><h1>${esc(title)}</h1><p>${esc(subtitle || "")}</p></section>` : ""}
         <div id="page-content">${content || ""}</div>
@@ -46,7 +46,7 @@
     </div>
     <nav class="hb2" aria-label="Main">${NAV.map(([id, h, l, ic, sh]) => `<a href="${h}" class="${id === pg ? "on" : ""}"><span class="i">${ic}</span>${sh}</a>`).join("")}</nav>`;
     document.getElementById("th").onclick = () => { const d = document.body.classList.toggle("dark"); localStorage.setItem("agsTheme", d ? "dark" : "light"); };
-    document.getElementById("um").onclick = () => { if (innerWidth <= 1000) location.href = "settings.html"; else if (confirm("Sign out of " + email + "?")) Auth.signOut(); };
+    document.getElementById("um").onclick = () => { if (innerWidth <= 1000) location.href = "settings"; else if (confirm("Sign out of " + email + "?")) Auth.signOut(); };
     return { session: s, name, email, ws, plan };
   };
 
@@ -58,7 +58,7 @@
           <div class="vt"><button data-v="grid" class="${view === "grid" ? "on" : ""}">▦ Grid View</button><button data-v="list" class="${view === "list" ? "on" : ""}">☰ List View</button></div></div>
         <div id="tl" class="tools ${view === "list" ? "list" : ""}"></div></section>
         ${all ? "" : `<aside class="hside"><div class="hcard"><h3>Your Activity</h3><div id="act"><div class="empty">Loading…</div></div></div>
-          <div class="hcard ql"><h3>Quick Links</h3><a href="all-tools.html">Browse All Tools <span>›</span></a><a href="billing-plan.html">Billing &amp; Plan <span>›</span></a><a href="settings.html">Settings <span>›</span></a><a href="help-support.html">Help &amp; Support <span>›</span></a></aside>`}
+          <div class="hcard ql"><h3>Quick Links</h3><a href="all-tools">Browse All Tools <span>›</span></a><a href="billing-plan">Billing &amp; Plan <span>›</span></a><a href="settings">Settings <span>›</span></a><a href="help-support">Help &amp; Support <span>›</span></a></aside>`}
       </div>`;
     const sh = await renderHubShell(page, "", "", content, true); if (!sh) return;
     const draw = () => { const q = document.getElementById("q").value.toLowerCase(); document.getElementById("tl").innerHTML = TOOLS.filter(t => (t.name + t.desc).toLowerCase().includes(q)).map(card).join("") || '<div class="empty">No tools match your search.</div>'; };

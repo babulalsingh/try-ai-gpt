@@ -1,4 +1,4 @@
-// Try AI GPT admin panel (anitadashboard.html). All data comes from the admin-api Edge Function, which re-checks the admin role on every call.
+// Try AI GPT admin panel (admindashboard.html). All data comes from the admin-api Edge Function, which re-checks the admin role on every call.
 (function () {
   "use strict";
   const cfg = window.APP_CONFIG || {};
@@ -64,7 +64,7 @@
       <p style="text-align:center;margin:14px 0 0"><button class="lk" id="fg" type="button">Forgot password?</button></p></div></div>`;
     $("#tg").onclick = e => { const i = $("input[name=password]"); i.type = i.type === "password" ? "text" : "password"; e.target.textContent = i.type === "password" ? "Show" : "Hide"; };
     $("#fg").onclick = async () => { const em = $("input[name=email]").value.trim(); const le = $("#le"); if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { le.textContent = "Enter your admin email first."; return; }
-      const { error } = await sb.auth.resetPasswordForEmail(em, { redirectTo: location.origin + location.pathname.replace(/[^/]*$/, "") + "reset-password.html" });
+      const { error } = await sb.auth.resetPasswordForEmail(em, { redirectTo: location.origin + location.pathname.replace(/[^/]*$/, "") + "reset-password" });
       le.style.color = error ? "" : "#0a8a52"; le.textContent = error ? "Could not send the email. Try again later." : "If this email has an account, a reset link has been sent."; };
     $("#lf").onsubmit = async e => { e.preventDefault(); const f = e.target.elements, b = e.submitter || e.target.querySelector("[type=submit]"), le = $("#le"); le.style.color = ""; le.textContent = ""; b.disabled = true; b.textContent = "Signing in…";
       const { error } = await sb.auth.signInWithPassword({ email: f.email.value.trim(), password: f.password.value });
@@ -86,8 +86,8 @@
   function renderShell() {
     root.innerHTML = `<div class="ad"><aside class="sd" id="sd"><div class="brand">${LOGO}<div><b>Try AI GPT</b><small>One Platform. Endless AI.</small></div></div>
       ${NAV.map(([id, l, ic]) => `<a class="nv" href="#/${id}" data-nv="${id}"><span class="ic">${ic}</span>${l}</a>`).join("")}
-      <a class="nv" href="index.html" target="_blank" rel="noopener"><span class="ic">🌐</span>Website</a>
-      <a class="back" href="hub.html"><span style="font-size:24px">🏠</span>Back to Website</a></aside>
+      <a class="nv" href="/" target="_blank" rel="noopener"><span class="ic">🌐</span>Website</a>
+      <a class="back" href="hub"><span style="font-size:24px">🏠</span>Back to Website</a></aside>
       <div class="mn"><div class="mc"><div class="tp"><button class="ib mnu" id="mb" aria-label="Menu">☰</button><div class="sq"><input id="gs" type="search" placeholder="Search users by name, email, phone, user ID, subscription or payment ID…" aria-label="Global search"></div>
         <button class="ib" id="bell" aria-label="Open support tickets">🔔<span class="bd hide" id="bn"></span></button>
         <button class="me" id="me"><span class="av">${esc((me.email || "A")[0].toUpperCase())}</span><div><b>Admin</b><small>${esc(me.email)}</small></div></button></div>

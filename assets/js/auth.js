@@ -29,16 +29,16 @@
   async function google(btn) {
     if (!sb) return toast("Supabase is not configured yet.", "bad");
     btn.disabled = true;
-    const { error } = await sb.auth.signInWithOAuth({ provider: "google", options: { redirectTo: location.origin + location.pathname.replace(/[^/]*$/, "") + "hub.html" } });
+    const { error } = await sb.auth.signInWithOAuth({ provider: "google", options: { redirectTo: location.origin + location.pathname.replace(/[^/]*$/, "") + "hub" } });
     if (error) { toast(error.message, "bad"); btn.disabled = false; }
   }
 
   const A = window.Auth = {
     sb, configured, toast,
     async session() { if (!sb) return null; const { data } = await sb.auth.getSession(); return data.session; },
-    async requireAuth() { const s = await A.session(); if (!s) location.replace("login.html"); return s; },
-    async redirectIfAuthed() { if (await A.session()) location.replace("hub.html"); },
-    async signOut() { if (sb) await sb.auth.signOut(); location.replace("login.html"); }
+    async requireAuth() { const s = await A.session(); if (!s) location.replace("login"); return s; },
+    async redirectIfAuthed() { if (await A.session()) location.replace("hub"); },
+    async signOut() { if (sb) await sb.auth.signOut(); location.replace("login"); }
   };
 
   document.addEventListener("click", e => {
@@ -60,10 +60,10 @@
       if (!ok) return;
       if (!sb) return toast("Supabase is not configured yet.", "bad");
       btn.disabled = true;
-      const { data, error } = await sb.auth.signUp({ email: f.email.value.trim(), password: f.password.value, options: { emailRedirectTo: location.origin + location.pathname.replace(/[^/]*$/, "") + "login.html" } });
+      const { data, error } = await sb.auth.signUp({ email: f.email.value.trim(), password: f.password.value, options: { emailRedirectTo: location.origin + location.pathname.replace(/[^/]*$/, "") + "login" } });
       btn.disabled = false;
       if (error) return toast(error.message, "bad");
-      if (data.session) return location.replace("hub.html");
+      if (data.session) return location.replace("hub");
       toast("Check your inbox to confirm your email, then sign in.", "ok");
     });
   }
@@ -82,14 +82,14 @@
       const { error } = await sb.auth.signInWithPassword({ email: f.email.value.trim(), password: f.password.value });
       btn.disabled = false;
       if (error) return toast(error.message, "bad");
-      location.replace("hub.html");
+      location.replace("hub");
     });
     document.getElementById("forgot")?.addEventListener("click", async e => {
       e.preventDefault();
       const v = login.elements.email.value.trim();
       if (!emailOk(v)) return fieldErr(login.elements.email, "Enter your email first, then select Forgot password.");
       if (!sb) return toast("Supabase is not configured yet.", "bad");
-      const { error } = await sb.auth.resetPasswordForEmail(v, { redirectTo: location.origin + location.pathname.replace(/[^/]*$/, "") + "reset-password.html" });
+      const { error } = await sb.auth.resetPasswordForEmail(v, { redirectTo: location.origin + location.pathname.replace(/[^/]*$/, "") + "reset-password" });
       toast(error ? error.message : "Password reset link sent. Check your inbox.", error ? "bad" : "ok");
     });
   }
@@ -111,7 +111,7 @@
       if (error) { btn.disabled = false; return toast(error.message, "bad"); }
       toast("Password updated. Please sign in again.", "ok");
       await sb.auth.signOut();
-      setTimeout(() => location.replace("login.html"), 1500);
+      setTimeout(() => location.replace("login"), 1500);
     });
   }
 })();
