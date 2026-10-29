@@ -84,8 +84,8 @@ Deploy the new `instagram-api` function. "Send Test DM" sends the rule's real me
 ## Plans
 Starter $0 (1,000 DMs, 1 account), Growth $4.99 (39,999 DMs, 1 account), Agency $8.99 (unlimited DMs, 3 accounts). Yearly = 25% off. Run `20261018000000_plans_v2_and_billing_history.sql` then `20261019000000_set_final_prices.sql`.
 
-## Admin panel (anitadashboard.html)
-URL: `https://<your-site>/anitadashboard.html` (login page when signed out, dashboard for an authorized admin).
+## Admin panel (admindashboard.html)
+URL: `https://<your-site>/admindashboard.html` (login page when signed out, dashboard for an authorized admin).
 
 ### One-time setup
 1. SQL Editor: run `supabase/migrations/20261020000000_admin_panel.sql`.
@@ -109,8 +109,8 @@ URL: `https://<your-site>/anitadashboard.html` (login page when signed out, dash
 - Banned, suspended, deactivated and deleted users lose access to their workspace data immediately and their automated DMs stop.
 
 ### Admin testing checklist
-1. Open `/anitadashboard.html` signed out: login page appears. Sign in with the admin account: dashboard appears.
-2. Sign in on the normal site with a regular user, then open `/anitadashboard.html`: you cannot get in (admin login only works for admin accounts).
+1. Open `/admindashboard.html` signed out: login page appears. Sign in with the admin account: dashboard appears.
+2. Sign in on the normal site with a regular user, then open `/admindashboard.html`: you cannot get in (admin login only works for admin accounts).
 3. Users > View > Change Plan > Growth, 30 days: user's Billing page shows "Complimentary Growth plan". Subscriptions page lists `grant_...` as Admin-granted. Payments page stays empty.
 4. Revoke the grant: user returns to Starter.
 5. Ban a user: they cannot sign in; Unban restores. Reset Password sends the email.
