@@ -181,7 +181,7 @@
     let q = sb.from("automation_events").select("status,error,payload,created_at,rule_id").eq("workspace_id", c.ws).order("created_at", { ascending: false }).limit(25);
     if (status) q = q.eq("status", status);
     const e = must(await q);
-    return e.length ? tbl(["When", "Comment", "From", "Status", "Detail"], e.map(x => `<tr><td>${App.fmt(x.created_at)}</td><td>${esc((x.payload && x.payload.text) || "—")}</td><td>${esc((x.payload && x.payload.from_username) || "—")}</td><td>${App.badge(x.status, stKind(x.status))}</td><td>${esc(x.error || "")}</td></tr>`)) : empty("Nothing here yet", "Events appear when comments arrive.");
+    return e.length ? tbl(["When", "Comment", "From", "Status", "Detail"], e.map(x => `<tr><td>${App.fmt(x.created_at)}</td><td class="wrap">${esc((x.payload && x.payload.text) || "—")}</td><td>${esc((x.payload && x.payload.from_username) || "—")}</td><td>${App.badge(x.status, stKind(x.status))}</td><td class="wrap">${esc(x.error || "")}</td></tr>`)) : empty("Nothing here yet", "Events appear when comments arrive.");
   }
 
   P.automation = async (c, el) => {

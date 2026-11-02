@@ -106,6 +106,9 @@
       document.querySelectorAll("#usageTxt,#usageTxt2").forEach(e => (e.textContent = `${App.num(used)} / ${App.lim(lim)} DMs used`));
       document.querySelectorAll("#usageBar,#usageBar2").forEach(e => (e.style.width = (lim == null ? 0 : Math.min(100, (used / lim) * 100)) + "%"));
     });
+    // On phones, tables become stacked cards (label + value per row) so every button stays reachable without sideways scrolling.
+    const stack = () => document.querySelectorAll("#page-content .tw table:not(.stk)").forEach(t => { const hs = [...t.querySelectorAll("thead th")].map(h => h.textContent.trim()); t.querySelectorAll("tbody tr").forEach(tr => [...tr.children].forEach((td, i) => td.setAttribute("data-l", hs[i] || ""))); t.classList.add("stk"); });
+    new MutationObserver(stack).observe(el, { childList: true, subtree: true });
     try { el.innerHTML = ""; await window.P[page](c, el); } catch (e) { el.innerHTML = `<div class="setup">${esc(e.message || e)}</div>`; }
   };
 })();
