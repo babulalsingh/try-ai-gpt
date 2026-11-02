@@ -132,3 +132,27 @@ update plans set price_inr = 749 where id = 'agency';
 6. Easebuzz dashboard > webhook / transaction notification URL: `https://<project-id>.supabase.co/functions/v1/easebuzz-callback`.
 7. Netlify: deploy the folder, then Billing & Plan > Upgrade. After paying you return to the Billing page and the plan is active.
 8. Go live: Easebuzz KYC/activation, live Key and Salt, `EASEBUZZ_ENV=prod`, live webhook URL.
+
+
+## AGS DM Insta Analytics upgrade (2 Nov 2026)
+
+### Install the analytics database
+Run `supabase/migrations/20261102000000_analytics.sql` in the Supabase SQL Editor after the existing migrations. It creates workspace-scoped `analytics_snapshots` with member-read RLS; browser clients cannot write snapshots.
+
+### Deploy updated Meta functions
+Deploy the updated `instagram-api` and `instagram-oauth` Edge Functions (JWT verification remains off because the function validates the user's bearer token itself):
+```
+supabase functions deploy instagram-api --no-verify-jwt
+supabase functions deploy instagram-oauth --no-verify-jwt
+```
+The OAuth flow now requests `instagram_business_manage_insights`. Reconnect the Instagram professional account so Meta can issue a token with the additional permission. The Meta app must have the required permission approved for production users.
+
+### Analytics pages
+`analytics.html` now contains Overview, Post Analytics, post detail, Automation Analytics, Audience Analytics and Reports. It uses the existing Supabase workspace/session and Chart.js. The three-line performance chart is backed by saved daily API snapshots; a chart remains empty until real history has been collected. CSV and XLSX exports are supported; PDF uses browser Print → Save as PDF.
+
+### Important data availability notes
+- Instagram Insights requires an eligible Business or Creator account and the appropriate Meta permission.
+- Metric availability varies by media type and permission. Unsupported metrics are left blank rather than filled with sample values.
+- Instagram API does not expose a universal post traffic-source breakdown; no invented traffic source values are displayed.
+- Historical time series begin when this upgraded function is deployed and analytics refreshes start. The API does not retroactively reconstruct every past day's values.
+- Meta may rate-limit or temporarily withhold insights. Refresh again later if a metric is unavailable.
