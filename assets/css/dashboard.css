@@ -141,3 +141,53 @@ html,body{max-width:100%}body{overflow-x:clip}img{max-width:100%}
 
 .alert-bad{background:#fde8e6;border:1px solid #f5b8b2;color:#a3231a;padding:14px 16px;border-radius:12px;margin-bottom:14px;font-weight:600}
 .slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:12px}.slot{border:2px dashed #cdbdfa;border-radius:14px;padding:14px;text-align:center;background:#faf8ff;display:grid;gap:6px;justify-items:center}.slot span{color:var(--muted);font-size:12.5px}
+
+/* ===== Mobile overflow fix: grid/flex children may shrink, so wide content (tables, links, 4-column tiles) can no longer push the page past the screen ===== */
+@media(max-width:1000px){
+ html,body{overflow-x:hidden;max-width:100vw}
+ .app,.main,.mc{width:100%;max-width:100%;min-width:0}
+ .cols,.auto-grid,.grid2,.grid3,.hmain,.inbox{grid-template-columns:minmax(0,1fr)!important}
+ .cols>*,.auto-grid>*,.grid2>*,.grid3>*,.hmain>*,.inbox>*,.stack,.stack>*,.stats>*,.stats4>*,.qa>*,.slots>*{min-width:0;max-width:100%}
+ .card{max-width:100%;overflow-wrap:break-word}
+ .tw{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+ .top{min-width:0;gap:10px}.top>*{min-width:0}
+ .kv{flex-wrap:wrap}.kv span:last-child{text-align:right;word-break:break-word}
+ .bar2{min-width:0}.bar2>*{min-width:0}
+ .slots{grid-template-columns:repeat(auto-fill,minmax(min(200px,100%),1fr))}
+ .rl,.rm,.rk{min-width:0;overflow-wrap:anywhere}
+ .dlg{max-width:94vw}.dlg .field,.dlg .input{max-width:100%}
+}
+@media(max-width:800px){
+ .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .stats.m4{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .stats4{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .qa4{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.qa4 .q{padding:10px 2px;min-width:0}.qa4 .q i{font-size:20px}.qa4 .q b{font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .qa{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .rrow{grid-template-columns:44px minmax(0,1fr) auto}
+ .tabs{min-width:0}.tabs button{flex:0 1 auto}
+ .posts{grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr))}
+ .btn,.ibtn{max-width:100%}
+ .hero-m{max-width:100%}.hero-m h2{font-size:24px}
+}
+@media(max-width:380px){.stats.m4 .card{padding:8px 2px}.stats.m4 b{font-size:16px}.stats.m4 span{font-size:9.5px}}
+
+/* mobile tables: keep short cells on one line (the table scrolls sideways inside its card), let long text cells wrap */
+@media(max-width:1000px){
+ .badge,.st{white-space:nowrap}
+ .tw td,.tw th{white-space:nowrap}
+ .tw td.wrap{white-space:normal;min-width:170px}
+}
+
+/* stacked-card tables on phones */
+@media(max-width:800px){
+ .tw table.stk{display:block;min-width:0;width:100%}
+ .tw table.stk thead{display:none}
+ .tw table.stk tbody{display:block}
+ .tw table.stk tr{display:block;border:1px solid var(--line);border-radius:12px;padding:6px 12px;margin-bottom:10px;background:#fff}
+ .tw table.stk td{display:flex;justify-content:space-between;align-items:center;gap:12px;border:0;padding:6px 0;white-space:normal;text-align:right;min-width:0}
+ .tw table.stk td:before{content:attr(data-l);color:var(--muted);font-weight:600;font-size:12.5px;text-align:left;flex:none}
+ .tw table.stk td[data-l=""]:before{display:none}
+ .tw table.stk td[data-l=""]{justify-content:flex-end;flex-wrap:wrap}
+ .tw table.stk td:empty{display:none}
+ .tw table.stk td.wrap{min-width:0}
+}
